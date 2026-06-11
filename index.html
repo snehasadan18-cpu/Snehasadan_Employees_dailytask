@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Scheduler Full Stack</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <aside class="side-panel">
+      <h1>Staff Scheduler Pro</h1>
+      <p>Backend-connected web application with real login, employee dashboard, admin dashboard, SQLite database, and local production-ready starter structure.</p>
+      <p>Admin can create employees, reset passwords, delete employees, review schedules, and approve or reject leave requests. Employees can log in, save weekly work schedules, and submit leave requests.</p>
+      <div class="feature-list">
+        <div class="feature-item"><strong>Real login</strong> Authenticated API with JWT sessions.</div>
+        <div class="feature-item"><strong>Database</strong> SQLite persistence for users, schedules, and leave requests.</div>
+        <div class="feature-item"><strong>Admin dashboard</strong> Manage employees, view schedules, approve leave.</div>
+        <div class="feature-item"><strong>Employee dashboard</strong> Weekly schedule and leave self-service.</div>
+      </div>
+    </aside>
+    <main class="phone-shell">
+      <div class="notch"></div>
+      <div class="phone-screen">
+        <div class="topbar">
+          <div class="brand">Staff Scheduler</div>
+          <div class="badge" id="roleBadge">Secure Access</div>
+        </div>
+
+        <section id="screen-login" class="screen active">
+          <div class="card hero">
+            <h1>Employee Login</h1>
+            <div class="space-8"></div>
+            <p>Use real login credentials stored in the backend database.</p>
+            <div class="login-demo tiny">
+              Seed Admin: <strong>ADMIN</strong> / <strong>admin123</strong><br />
+              Seed Employee: <strong>E001</strong> / <strong>pass123</strong>
+            </div>
+          </div>
+          <div class="card">
+            <label class="label" for="employeeId">Employee ID / Email</label>
+            <input id="employeeId" class="input" placeholder="Enter employee ID or email" />
+            <div class="space-12"></div>
+            <label class="label" for="password">Password</label>
+            <input id="password" class="input" type="password" placeholder="Enter password" />
+            <div class="space-16"></div>
+            <button class="btn btn-primary" id="loginButton">Login</button>
+            <div class="space-12"></div>
+            <a class="help-link" href="#" id="helpLink">Need help from admin?</a>
+          </div>
+        </section>
+
+        <section id="screen-dashboard" class="screen">
+          <div class="card hero">
+            <h2 id="welcomeTitle">Welcome back</h2>
+            <p id="welcomeSubtitle">Manage your work week and submit leave requests.</p>
+            <div class="space-16"></div>
+            <div class="pill">● Backend connected dashboard</div>
+          </div>
+          <div class="grid-2">
+            <div class="metric">
+              <div class="tiny muted">This Week</div>
+              <div class="value" id="metricDays">6 Days</div>
+            </div>
+            <div class="metric">
+              <div class="tiny muted" id="metricLeavesLabel">Pending Leave</div>
+              <div class="value" id="metricLeaves">0</div>
+            </div>
+          </div>
+          <div class="space-12"></div>
+          <div class="card admin-banner" id="dashboardAdminBanner">
+            <h3>Admin Flow</h3>
+            <p class="muted">Create employee logins, manage staff, review schedules, and approve leave requests.</p>
+          </div>
+          <div class="card">
+            <div class="section-title">
+              <h3>Quick Actions</h3>
+              <button class="btn btn-secondary btn-inline" id="logoutButton">Logout</button>
+            </div>
+            <div class="quick-grid" id="quickActions"></div>
+          </div>
+        </section>
+
+        <section id="screen-schedule" class="screen">
+          <div class="card">
+            <h2>Weekly Schedule</h2>
+            <p class="muted">Each day uses simple text such as <strong>Work</strong> instead of timing.</p>
+          </div>
+          <div class="card">
+            <div class="row">
+              <div>
+                <label class="label">Name</label>
+                <input id="scheduleName" class="input" readonly />
+              </div>
+              <div>
+                <label class="label">Month</label>
+                <input id="scheduleMonth" class="input" readonly />
+              </div>
+            </div>
+            <div class="space-12"></div>
+            <label class="label">Week Dates</label>
+            <input id="scheduleDate" class="input" readonly />
+          </div>
+          <div class="card">
+            <div class="schedule-grid">
+              <div class="schedule-box"><label class="label">Mon</label><input id="mon" class="input" value="Work" /></div>
+              <div class="schedule-box"><label class="label">Tue</label><input id="tue" class="input" value="Work" /></div>
+              <div class="schedule-box"><label class="label">Wed</label><input id="wed" class="input" value="Work" /></div>
+              <div class="schedule-box"><label class="label">Thurs</label><input id="thu" class="input" value="Work" /></div>
+              <div class="schedule-box"><label class="label">Fri</label><input id="fri" class="input" value="Work" /></div>
+              <div class="schedule-box"><label class="label">Sat</label><input id="sat" class="input" value="Work" /></div>
+            </div>
+            <div class="space-16"></div>
+            <button class="btn btn-primary" id="saveScheduleButton">Save Weekly Schedule</button>
+          </div>
+        </section>
+
+        <section id="screen-leave" class="screen">
+          <div class="card">
+            <h2>Leave Application</h2>
+            <p class="muted">Submit leave requests into the backend for admin review.</p>
+          </div>
+          <div class="card">
+            <div class="row">
+              <div>
+                <label class="label">Start Date</label>
+                <input id="leaveStart" class="input" type="date" />
+              </div>
+              <div>
+                <label class="label">End Date</label>
+                <input id="leaveEnd" class="input" type="date" />
+              </div>
+            </div>
+            <div class="space-16"></div>
+            <label class="label">Leave Type</label>
+            <div class="tag-row" id="leaveTypes"></div>
+            <div class="space-16"></div>
+            <label class="label">Reason</label>
+            <textarea id="leaveReason" class="textarea" rows="4" placeholder="Optional reason for the leave request"></textarea>
+            <div class="space-16"></div>
+            <button class="btn btn-primary" id="submitLeaveButton">Submit Request</button>
+          </div>
+          <div class="card">
+            <div class="section-title"><h3>My Leave History</h3></div>
+            <div id="myLeaveList" class="data-list"></div>
+          </div>
+        </section>
+
+        <section id="screen-manage" class="screen">
+          <div class="card hero">
+            <h2>Admin Dashboard</h2>
+            <p>Manage employees, leave approvals, and saved weekly schedules.</p>
+          </div>
+          <div class="card">
+            <div class="section-title">
+              <h3>Add or Update Employee</h3>
+              <button class="btn btn-secondary btn-inline" id="clearEmployeeForm">Clear</button>
+            </div>
+            <input type="hidden" id="employeeFormMode" value="create" />
+            <input type="hidden" id="editEmployeeDbId" value="" />
+            <label class="label">Employee ID</label>
+            <input id="empId" class="input" placeholder="Example: E003" />
+            <div class="space-12"></div>
+            <label class="label">Employee Name</label>
+            <input id="empName" class="input" placeholder="Employee full name" />
+            <div class="space-12"></div>
+            <label class="label">Email</label>
+            <input id="empEmail" class="input" placeholder="employee@company.com" />
+            <div class="space-12"></div>
+            <label class="label">Password</label>
+            <input id="empPassword" class="input" placeholder="Temporary login password" />
+            <div class="space-16"></div>
+            <button class="btn btn-primary" id="saveEmployeeButton">Save Employee</button>
+          </div>
+          <div class="card">
+            <div class="section-title">
+              <h3>Employees</h3>
+              <span class="tiny muted" id="employeeCountLabel">0 employees</span>
+            </div>
+            <div id="employeesList" class="data-list"></div>
+          </div>
+          <div class="card">
+            <div class="section-title"><h3>Leave Approval Queue</h3></div>
+            <div id="leaveAdminList" class="data-list"></div>
+          </div>
+          <div class="card">
+            <div class="section-title"><h3>Employee Schedule Overview</h3></div>
+            <div id="scheduleAdminList" class="data-list"></div>
+          </div>
+        </section>
+
+        <nav class="bottom-nav" id="bottomNav">
+          <button class="nav-btn" data-screen="dashboard">Dashboard</button>
+          <button class="nav-btn" data-screen="schedule">Schedule</button>
+          <button class="nav-btn" data-screen="leave">Leave</button>
+          <button class="nav-btn" data-screen="logout">Logout</button>
+        </nav>
+
+        <div class="toast" id="toast"></div>
+      </div>
+    </main>
+    <div></div>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
