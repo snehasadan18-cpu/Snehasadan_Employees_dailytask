@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: staffscheduler
+    env: docker
+    plan: starter
+    autoDeploy: true
+    disk:
+      name: staffscheduler-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DB_PATH
+        value: /app/data/staffscheduler.db
+      - key: JWT_SECRET
+        generateValue: true
